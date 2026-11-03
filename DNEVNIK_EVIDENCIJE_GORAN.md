@@ -38,7 +38,7 @@ Ovde beležim šta sam radio pri svakom radu na projektu. Novi unos se dodaje **
 
 **Šta sam radio:** proučavanje teme i pregled literature.
 
-**Rezultat:** pregledano 12 izvora, od toga 5 pročitano u celini. Napisan dokument `Projekat11_final.docx` (u folderu `docs/`).
+**Rezultat:** pregledano 12 izvora, od toga 5 pročitano u celini. Napisan dokument `Projekat11_final.docx` (u repozitorijumu).
 
 **Najvažnije saznanje:** najbliži rad je Turaev i sar. (2026, arXiv:2606.01982). Oni koriste ishode učenja kao izvor kurikuluma i pilot sa 30 oglasa. U pregledanim radovima nisam našao poređenje koliko svaki dodatni izvor popravlja uparivanje, pa je to moj mogući doprinos (hipoteza koju treba još proveriti).
 
