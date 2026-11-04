@@ -50,7 +50,9 @@ Beleške sa konsultacija (kako sam ih razumeo):
 5. **Pogledati i mimo rada** Turaeva i sar.: druge metode i izvore.
 6. **GitHub repozitorijum** deljen sa profesorom (nalog: `savic071`); u njemu istraživački dnevnik, osnovni pojmovi i sledeći koraci.
 
-Otvorena pitanja za potvrdu: domen/program, dostupnost silabusa, obim oglasa, jezik teksta rada, format isporuke.
+7. **Domen i cilj aplikacije (profesor):** Fakultet tehničkih nauka u Novom Sadu, svi smerovi; za njih se izrađuju kurikulumi. Student u aplikaciji bira smer (npr. Računarstvo i automatika) i dobija ponude za posao povezane sa tim smerom.
+
+Otvorena pitanja za potvrdu: počinjem li od jednog smera, odakle uzimam kurikulume (knjige predmeta, silabusi), da li je rezultat samo lista poslova ili i ocena kurikuluma, jezik teksta rada, da li repozitorijum može biti javan.
 
 ---
 
@@ -127,15 +129,15 @@ Format: **šta radim — kako — rezultat**.
 | # | Šta radim | Kako | Rezultat |
 |---|---|---|---|
 | 1 | Pravim repozitorijum i dnevnik | GitHub, dodajem `savic071` kao saradnika | repo sa README i ovim dnevnikom |
-| 2 | Potvrđujem domen i podatke | pitanja profesoru; provera dostupnosti silabusa | odluka: program, obim, jezik |
+| 2 | Potvrđujem domen i podatke | počinjem od smera Računarstvo i automatika (FTN), proveravam dostupnost kurikuluma | odluka: redosled smerova, izvori kurikuluma, jezik |
 | 3 | Biram ESCO podatke | preuzimam ESCO, proveravam jezike | lokalna kopija ESCO |
-| 4 | Pilot prikupljanje | 10 predmeta + ~50 oglasa, jednostavan krouler | mali skup podataka u `data/` (van repozitorijuma) |
+| 4 | Pilot prikupljanje | kurikulum jednog smera + probni skup oglasa za srodne poslove, jednostavan krouler | mali skup podataka u `data/` (van repozitorijuma) |
 | 5 | Biram embedding model | test na 30–50 označenih parova, 3–4 modela | izabran model + tabela rezultata |
 | 6 | Ekstrakcija kompetencija | LLM + JSON šema, fiksiran model i parametri | JSON kompetencija za pilot |
-| 7 | Mapiranje i poređenje | embeddings top-K + LLM provera, matrica sličnosti | prva gap analiza na pilotu |
+| 7 | Mapiranje i poređenje | embeddings top-K + LLM provera, matrica sličnosti; oglasi se rangiraju po poklapanju sa veštinama izabranog smera | prva lista poslova za smer i prva gap analiza |
 | 8 | Referentni skup | ručno označavanje, dva označavača | gold skup + κ |
 | 9 | Ablacija izvora | pokretanje pipeline-a za C0–C5 | tabela: kvalitet po nivou obogaćivanja |
-| 10 | Aplikacija i vizuelizacija | dashboard (heatmap, rang-lista jazova) | prototip |
+| 10 | Aplikacija i vizuelizacija | student bira smer i vidi poslove sa objašnjenjem (šta smer pokriva, šta fali); opciono prikaz za fakultet (heatmap, rang-lista jazova) | prototip |
 | 11 | Pisanje rada (~10 strana) | motivacija, srodni radovi, rešenje, rezultati | tekst |
 
 Nedeljni zapisi se dodaju ispod kao novi unosi (**Unos 3, Unos 4, ...**).
