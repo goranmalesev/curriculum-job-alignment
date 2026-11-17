@@ -14,7 +14,7 @@ Projekat se oslanja na Turaev i sar. (2026), arXiv:2606.01982. Oni koriste samo 
 Sadržaj repozitorijuma
 .
 ├── README.md                 ovaj fajl
-├── ISTRAZIVACKI_DNEVNIK.md   pojmovi, metodologija, arhitektura, dnevnik rada, sledeći koraci
+├── Istrazivacki_dnevnik.md   pojmovi, metodologija, arhitektura, dnevnik rada, sledeći koraci
 ├── Projekat11.docx           pregled literature (prva faza)
 └── .gitignore                data/ ne ide na repozitorijum
 
