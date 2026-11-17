@@ -265,7 +265,7 @@ Predmet prolazi **isti put** (koraci 1–3), samo što je ulaz tekst iz knjige p
 
 ### 3.5 Planirana struktura repozitorijuma
 
-Ovo je plan, ne trenutno stanje. Za sada repozitorijum ima samo `README.md`, `DNEVNIK.md` i `.gitignore`; foldere dodajem kada počnem da pišem kod za taj deo, a strukturu menjam posle dogovora sa profesorom.
+Ovo je plan, ne trenutno stanje. Za sada repozitorijum ima samo `README.md`, `Istrazivacki_dnevnik.md` i `.gitignore`; foldere dodajem kada počnem da pišem kod za taj deo, a strukturu menjam posle dogovora sa profesorom.
 
 ```
 projekat11/
@@ -337,4 +337,4 @@ projekat11/
 - Senger, E. i sar. (2024). *Deep learning-based computational job market analysis.* NLP4HR 2024.
 - Andonovikj, V., & Boškoski, P. (2024). *Extracting competencies from job adverts and academic syllabi.* ERK 2024.
 
-Pun spisak: `Projekat11_final.docx`, odeljak 6.
+Pun spisak: `Projekat11.docx`, odeljak 6.
