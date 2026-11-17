@@ -242,7 +242,7 @@ Najlakše se razume ako se prati jedan oglas (primer je izmišljen, isti kao u o
 | **1. Prikupljanje** | stranica oglasa „Junior Backend Developer“ | čist tekst oglasa + datum i izvor |
 | **2. Izvlačenje veština** | tekst oglasa | `[Java, Spring Boot, SQL, PostgreSQL, REST API, Git, Docker, komunikacija]`, uz citat za svaku |
 | **3. Prevođenje na ESCO** | „SQL“, „Git“, ... | ESCO naziv i ID za svaku veštinu (ili „nema u ESCO-u“) |
-| **4. Poređenje** | ESCO veštine oglasa + ESCO veštine svih predmeta RA | Java ✅, SQL ✅, PostgreSQL ✅, REST API ✅, Spring Boot ❌, Git ❌, Docker ❌, komunikacija ❌ |
+| **4. Poređenje** | ESCO veštine oglasa + ESCO veštine svih predmeta RA | Java (da), SQL (da) PostgreSQL (da) REST API (da) Spring Boot (n e) Git (ne) Docker (ne) komunikacija (ne) |
 | **5. Rezultat** | tabela iz koraka 4 | pokrivenost 50%; nedostaju Spring Boot, Git, Docker i komunikacija |
 
 Predmet prolazi **isti put** (koraci 1–3), samo što je ulaz tekst iz knjige predmeta umesto oglasa.
@@ -272,17 +272,6 @@ projekat11/
 ├── README.md               kratak opis projekta
 ├── DNEVNIK.md              istraživački dnevnik sa arhitekturom (ovaj dokument)
 ├── docs/                   pregled literature, beleške, slike
-├── engine/                 softverski deo
-│   ├── prikupljanje/
-│   ├── ekstrakcija/
-│   ├── esco/
-│   ├── poredjenje/
-│   └── aplikacija/
-├── istrazivanje/           istraživački deo
-│   ├── evaluacija/
-│   └── eksperimenti/       podešavanja i rezultati (V0–V3, Put A/B)
-├── config/                 izabrani model, prag, verzija obogaćivanja
-└── data/                   NE ide na git (.gitignore): sirovi oglasi, PDF-ovi, ESCO
 ```
 
 ---
@@ -338,48 +327,9 @@ projekat11/
 - Metodologiju sam prepisao kao niz koraka sa primerom (odeljak 2), da bude jasno šta ulazi i šta izlazi iz svakog koraka.
 - Izbacio sam stvari koje za sada ne koristim (složen indeks usklađenosti, mere za rangiranje), da se fokusiram na osnovno: pokrivenost oglasa, preciznost i odziv.
 - Sledeće: početi od smera Računarstvo i automatika i proveriti dostupnost kurikuluma.
-
-### Unos 4 — arhitektura i dorade (15.11.2026)
-
-- Dodao sam arhitekturu (odeljak 3): koji delovi sistema postoje i kako podaci idu kroz njih.
-- Proverio sam da ESCO nema srpsku verziju; dodao napomenu u korak 3.
-- Za Put B prag sličnosti biram na ručno označenom skupu, a ne unapred.
-- Zapisao sam koje ideje uzimam iz drugih radova, ne samo iz Turaeva (odeljak 0.2).
-
-### Unos 5 — jedan dokument (17.11.2026)
-
-- Dnevnik i arhitekturu sam spojio u jedan dokument, da sve bude na jednom mestu.
-
-<!--
-Šablon za nove unose:
-
-### Unos N — kratak naslov (DD.MM.GGGG)
-
-- Šta sam uradio:
-- Šta sam dobio (brojevi, fajlovi):
-- Problem / šta nije radilo:
-- Sledeći korak:
--->
-
 ---
 
-## 6. Sledeći koraci
-
-| # | Šta radim | Rezultat |
-|---|---|---|
-| 1 | Preuzimam knjigu predmeta za RA sa sajta FTN-a i vadim tekst po predmetu | tabela predmeta (naziv, cilj, ishodi, sadržaj) |
-| 2 | Preuzimam ESCO (CSV, engleski + hrvatski) | lokalna kopija ESCO-a |
-| 3 | Pišem jednostavan krouler i prikupljam ~200 oglasa | oglasi u `data/` (van repozitorijuma) |
-| 4 | Ručno pravim 30–50 parova i testiram 3 embedding modela | izabran model + mala tabela rezultata |
-| 5 | Pokrećem korake 2–4 na 5 predmeta i 20 oglasa | prvi primer pokrivenosti, kao u tabeli iz koraka 4 |
-| 6 | Ručno označavam 50 oglasa | referentni skup |
-| 7 | Eksperiment V0–V3 i Put A / Put B | tabela preciznosti i odziva |
-| 8 | Prototip aplikacije: izbor smera → lista oglasa sa pokrivenošću | prototip |
-| 9 | Pisanje rada | tekst |
-
----
-
-## 7. Glavna literatura
+## 6. Glavna literatura
 
 - Turaev, S., John, M., Awad, M., Zaki, N., & Shuaib, K. (2026). *An NLP-driven framework for curriculum-labor market alignment.* arXiv:2606.01982 (preprint).
 - Pelucchi, M. i sar. (2026). *Bridging skills demand and vocational qualifications* (konferencijska prezentacija, Lightcast).
