@@ -293,9 +293,6 @@ projekat11/
 ## 4. Šta još ne znam (proveriti)
 
 - Da li su ishodi učenja i sadržaj dostupni za sve predmete RA, i da li mogu da dobijem nastavne materijale.
-- Da li ESCO dovoljno dobro pokriva konkretne alate (Docker, React, Kubernetes...).
-- Koji portal za oglase dozvoljava prikupljanje.
-- Koji LLM koristim i koliki je budžet.
 - Koliko dobro višejezički modeli rade za srpski (proveravam testom iz odeljka „Izbor embedding modela“).
 
 **Rešeno:** ESCO ne postoji na srpskom (postoji na 28 jezika, među njima hrvatski). Izvor: [ESCO languages](https://esco.ec.europa.eu/en/escopedia/ESCO-languages).
