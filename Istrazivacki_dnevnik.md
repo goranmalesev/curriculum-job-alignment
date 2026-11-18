@@ -198,7 +198,7 @@ flowchart TB
     subgraph IZVORI["Izvori podataka"]
         K["Knjiga predmeta FTN<br/>(PDF)"]
         O["Portal sa oglasima"]
-        E["ESCO<br/>(CSV, engleski + hrvatski)"]
+        E["ESCO<br/>(CSV, engleski + srpski)"]
     end
 
     subgraph ENGINE["Softverski deo (engine)"]
