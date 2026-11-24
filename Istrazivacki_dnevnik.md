@@ -7,11 +7,12 @@ Autor: Goran Malešev (E2 162) · Mentor: Goran Savić
 
 ---
 
-## 0. Projekat u tri rečenice
+## 0. Projekat ukratko
 
-1. Iz kurikuluma jednog smera na FTN-u i iz oglasa za posao izvlačim **listu veština**.
+1. Iz 2–3 predmeta smera Računarstvo i automatika na FTN-u (uz nastavne materijale) i iz oglasa za posao izvlačim **listu veština**.
 2. Obe liste prevodim na **iste standardne nazive** (ESCO), da bih mogao da ih uporedim.
-3. Za svaki oglas računam **koliko traženih veština smer pokriva**. Tako student dobija listu poslova koji odgovaraju njegovom smeru, a fakultet vidi šta mu nedostaje.
+3. Za svaki oglas računam **meru poklapanja u oba smera**: koliko traženih veština smer pokriva i koliko od onoga što smer uči oglas traži. Tako student dobija listu poslova koji odgovaraju njegovom smeru, a fakultet vidi šta mu nedostaje.
+4. Sve što prikupim i izračunam čuvam kao **dataset** (celi oglasi, predmeti, veštine), koji je i sam jedan od rezultata.
 
 **Šta je novo u odnosu na najbliži rad (Turaev i sar., 2026):** oni koriste samo ishode učenja i 30 oglasa. Ja proveravam da li uparivanje postaje tačnije kada predmetu dodam još izvora (ishode, sadržaj, materijale), i to merim na ručno proverenim primerima.
 
@@ -31,6 +32,7 @@ Kako su delovi sistema povezani: odeljak 3 (Arhitektura sistema).
 | Obogatiti kratke tekstove dodatnim izvorima | Korak 7 (V0–V3, opis firme) |
 | Istražiti koji izvori najviše doprinose | Korak 7 + ručna provera iz koraka 6 |
 | Prototip za jedan domen | Korak 5 (aplikacija), domen: FTN, smer Računarstvo i automatika |
+| Dataset kao rezultat (smernica profesora) | Korak 1 i modul `dataset` |
 
 ## 0.2 Šta preuzimam od Turaeva i sar. (2026), a šta radim drugačije
 
@@ -77,9 +79,20 @@ Postupak objašnjavam na jednom primeru. **Nazivi predmeta, tekst oglasa i broje
 
 ### Korak 1 — Prikupljam podatke
 
-**Kurikulum.** Sa sajta FTN-a preuzimam knjigu predmeta za smer *Računarstvo i automatika*. Za svaki predmet čuvam: naziv, cilj, ishode učenja, sadržaj i literaturu.
+**Kurikulum.** Fokusiram se na **2–3 predmeta** smera *Računarstvo i automatika*. Za njih ne uzimam samo knjigu predmeta (naziv, cilj, ishodi, sadržaj, literatura), nego i **nastavne materijale** (slajdove, zadatke), jer oni najbolje pokazuju šta se na predmetu stvarno uči. Engine pravim generički, tako da se kasnije isti postupak pokrene za bilo koji predmet ili smer.
 
-**Oglasi.** Sa jednog portala (npr. Infostud ili HelloWorld) prikupljam oglase za poslove koji odgovaraju smeru („Java developer“, „Software engineer“, „QA engineer“...). Za početak je dovoljno oko 200 oglasa. Pre prikupljanja proveravam uslove korišćenja sajta i `robots.txt`. Ne čuvam lične podatke, a sirove oglase ne stavljam u javni repozitorijum.
+**Oglasi.** Sa portala (LinkedIn, Infostud, HelloWorld; konačan izbor zavisi od uslova korišćenja) prikupljam oglase za poslove koji odgovaraju smeru („Java developer“, „Software engineer“, „QA engineer“...). Za početak je dovoljno oko 200 oglasa. Pre prikupljanja proveravam uslove korišćenja sajta i `robots.txt`. Ne čuvam lične podatke, a sirove oglase ne stavljam u javni repozitorijum.
+
+**Dataset kao rezultat.** Sve što prikupim i obradim čuvam kao skup podataka (dataset), koji je i sam jedan od rezultata projekta:
+
+| Deo dataseta | Šta sadrži |
+|---|---|
+| `oglasi` | ceo tekst oglasa, naziv pozicije, firma, izvor, link, datum prikupljanja |
+| `predmeti` | naziv, cilj, ishodi, sadržaj, nastavni materijali (tekst) |
+| `vestine` | za svaki oglas i predmet: veština, citat iz teksta, ESCO naziv i ID |
+| `poklapanja` | za svaki par oglas–smer: mera poklapanja u oba smera |
+
+Za testiranje koristim i **Ivanin dataset**, koji mi je profesor odredio kao test skup (vidi korak 6).
 
 *Primer:*
 > **Predmet „Baze podataka“** — Ishodi: student ume da projektuje relacionu bazu i piše SQL upite. Sadržaj: ER model, normalizacija, SQL, transakcije, PostgreSQL.
@@ -89,6 +102,8 @@ Postupak objašnjavam na jednom primeru. **Nazivi predmeta, tekst oglasa i broje
 ### Korak 2 — Iz svakog teksta izvlačim listu veština
 
 LLM-u dam tekst i tražim da vrati listu veština. Uz svaku veštinu mora da navede i deo teksta iz kog ju je izvukao, da bih mogao da proverim da nije izmislio.
+
+**Napomena (profesor, 23.11.):** tehniku izvlačenja treba preispitati. Pored LLM-a razmatram i jednostavnije tehnike (npr. traženje ESCO naziva i sinonima direktno u tekstu) i modele specijalizovane za izvlačenje veština iz oglasa. Izbor donosim poređenjem na test skupu.
 
 *Primer:*
 - Predmet „Baze podataka“ → `[projektovanje relacionih baza, SQL, normalizacija, transakcije, PostgreSQL]`
@@ -127,6 +142,15 @@ Spojim veštine svih predmeta smera u jednu listu. Za svaki oglas gledam koje nj
 
 **Pokrivenost oglasa = 4/8 = 50%.** Nedostaju Spring Boot, Git, Docker i komunikacija.
 
+**Poklapanje u oba smera.** Za svaki oglas dobijam meru poklapanja, a poređenje radi u dva smera:
+
+| Smer | Pitanje | Mera |
+|---|---|---|
+| **oglas → smer** | Koliko smer pokriva ovaj oglas? | pokriveno / sve veštine oglasa (u primeru 4/8 = 50%) |
+| **smer → oglas** | Koliko ovaj oglas traži od onoga što smer uči? | pokriveno / sve veštine smera |
+
+Prvi smer kaže studentu da li je spreman za oglas. Drugi smer kaže koliko je oglas „na temu“ smera: oglas može da traži samo 2 veštine i da ih smer obe pokriva (100%), a da je ipak slabo povezan sa onim što smer uči. U aplikaciji to znači: **izaberem smer i dobijem oglase**, ili **izaberem oglas i vidim koliko ga smer pokriva**.
+
 ### Korak 5 — Rezultat za studenta i za fakultet
 
 - **Student** bira smer i vidi oglase poređane po pokrivenosti, a za svaki oglas i šta mu nedostaje. To je aplikacija koju je profesor opisao.
@@ -144,6 +168,8 @@ Oba prikaza dolaze iz **iste tabele** (oglasi × veštine × predmeti), samo je 
    - **Odziv:** od svih veština koje su stvarno pokrivene, koliko ih je sistem našao?
 
 Ako stignem, neko drugi nezavisno označi isti skup, pa proverim koliko se slažemo.
+
+**Test skup:** profesor je odredio da Ivanin dataset bude moj test skup. Na njemu merim preciznost i odziv, a ručno označavanje koristim za ono što taj dataset ne pokriva (format i sadržaj dataseta tek treba da pogledam).
 
 ### Korak 7 — Glavni eksperiment: da li više izvora pomaže?
 
@@ -198,7 +224,7 @@ flowchart TB
     subgraph IZVORI["Izvori podataka"]
         K["Knjiga predmeta FTN<br/>(PDF)"]
         O["Portal sa oglasima"]
-        E["ESCO<br/>(CSV, engleski + srpski)"]
+        E["ESCO<br/>(CSV, engleski + hrvatski)"]
     end
 
     subgraph ENGINE["Softverski deo (engine)"]
@@ -209,12 +235,13 @@ flowchart TB
     end
 
     subgraph IZLAZ["5. Rezultat"]
-        A1["Za studenta:<br/>oglasi po pokrivenosti + šta fali"]
+        A1["Za studenta:<br/>smer → oglasi, oglas → smer"]
         A2["Za fakultet:<br/>jaz i moguće zastareo sadržaj"]
+        A3["Dataset:<br/>oglasi, predmeti, veštine, poklapanja"]
     end
 
     subgraph ISTR["Istraživački deo"]
-        R1["6. Ručno označenih 50 oglasa"]
+        R1["6. Test skup:<br/>Ivanin dataset + ručno označeni oglasi"]
         R2["Merenje: preciznost i odziv"]
         R3["7–8. Eksperimenti:<br/>V0–V3, Put A / Put B, modeli"]
     end
@@ -225,6 +252,7 @@ flowchart TB
     E --> S3
     S4 --> A1
     S4 --> A2
+    S4 --> A3
     S4 --> R2
     R1 --> R2
     R3 -. "pokreće engine sa drugim podešavanjima" .-> S2
@@ -242,7 +270,7 @@ Najlakše se razume ako se prati jedan oglas (primer je izmišljen, isti kao u o
 | **1. Prikupljanje** | stranica oglasa „Junior Backend Developer“ | čist tekst oglasa + datum i izvor |
 | **2. Izvlačenje veština** | tekst oglasa | `[Java, Spring Boot, SQL, PostgreSQL, REST API, Git, Docker, komunikacija]`, uz citat za svaku |
 | **3. Prevođenje na ESCO** | „SQL“, „Git“, ... | ESCO naziv i ID za svaku veštinu (ili „nema u ESCO-u“) |
-| **4. Poređenje** | ESCO veštine oglasa + ESCO veštine svih predmeta RA | Java (da), SQL (da) PostgreSQL (da) REST API (da) Spring Boot (n e) Git (ne) Docker (ne) komunikacija (ne) |
+| **4. Poređenje** | ESCO veštine oglasa + ESCO veštine svih predmeta RA | Java (da), SQL (da), PostgreSQL (da), REST API (da), Spring Boot (ne), Git (ne), Docker (ne), komunikacija (ne) |
 | **5. Rezultat** | tabela iz koraka 4 | pokrivenost 50%; nedostaju Spring Boot, Git, Docker i komunikacija |
 
 Predmet prolazi **isti put** (koraci 1–3), samo što je ulaz tekst iz knjige predmeta umesto oglasa.
@@ -256,25 +284,45 @@ Predmet prolazi **isti put** (koraci 1–3), samo što je ulaz tekst iz knjige p
 | `prikupljanje` | Skida oglase sa portala i vadi tekst predmeta iz PDF-a. Poštuje `robots.txt`, pravi pauzu između zahteva, ne čuva lične podatke. | URL-ovi, PDF | tekst + datum + izvor |
 | `ekstrakcija` | Šalje tekst LLM-u i dobija listu veština sa citatima. Model i podešavanja su fiksirani da bi rezultat bio ponovljiv. | tekst | lista veština (JSON) |
 | `esco` | Pretvara ESCO veštine u embeddinge (jednom) i za svaku veštinu iz teksta nalazi ESCO naziv. | lista veština | lista ESCO ID-eva |
-| `poredjenje` | Pravi tabelu oglasi × veštine × predmeti i računa pokrivenost i jaz. | ESCO veštine oglasa i predmeta | pokrivenost po oglasu, lista jazova |
+| `poredjenje` | Pravi tabelu oglasi × veštine × predmeti i računa meru poklapanja u oba smera (oglas → smer, smer → oglas) i jaz. | ESCO veštine oglasa i predmeta | mera poklapanja za svaki oglas, lista jazova |
+| `dataset` | Snima sve u skup podataka: cele oglase, predmete, izvučene veštine i poklapanja. | rezultati svih koraka | dataset (CSV/JSON) |
 | `aplikacija` | Student bira smer i vidi oglase; fakultet vidi jaz. | rezultati poređenja | prikaz u pregledaču |
 | `evaluacija` | Poredi sistem sa ručno označenim oglasima. | rezultat sistema + ručne oznake | preciznost, odziv |
 | `eksperimenti` | Pokreće engine za V0–V3, Put A / Put B i različite modele i zapisuje rezultate. | podešavanja | tabela rezultata |
 
 ---
 
-### 3.5 Planirana struktura repozitorijuma
+### 3.5 Struktura repozitorijuma
 
-Ovo je plan, ne trenutno stanje. Za sada repozitorijum ima samo `README.md`, `Istrazivacki_dnevnik.md` i `.gitignore`; foldere dodajem kada počnem da pišem kod za taj deo, a strukturu menjam posle dogovora sa profesorom.
+Prva verzija pipeline-a je implementirana (Unos 7). Svaki korak iz odeljka 2 je jedan fajl:
 
 ```
-projekat11/
-├── README.md               kratak opis projekta
-├── DNEVNIK.md              istraživački dnevnik sa arhitekturom (ovaj dokument)
-├── docs/                   pregled literature, beleške, slike
+curriculum-job-alignment/
+├── README.md                 kratak opis projekta
+├── Istrazivacki_dnevnik.md   istraživački dnevnik sa arhitekturom (ovaj dokument)
+├── PIPELINE.md               kako se pokreće kod i koji fajl je koji korak
+├── Projekat11.docx           pregled literature
+├── config.yaml               sva podešavanja (predmeti, izvori, nivo V0–V3, put A/B, model, pragovi)
+├── pokreni.py                pokretanje celog pipeline-a
+├── aplikacija.py             prototip aplikacije (Streamlit)
+├── requirements.txt          potrebne biblioteke
+├── engine/                   softverski deo (koraci 1–5)
+│   ├── ucitavanje.py         1. učitavanje predmeta i oglasa, nivoi V0–V3
+│   ├── krouler.py            1. osnova za krouler (robots.txt, pauza)
+│   ├── ekstrakcija.py        2. izvlačenje veština: rečnik ili LLM
+│   ├── esco.py               3. prevođenje na ESCO
+│   ├── embedding.py          3. embedding model
+│   ├── poredjenje.py         4–5. poklapanje u oba smera, jaz, zastareo sadržaj
+│   ├── dataset.py            5. snimanje dataseta
+│   ├── pipeline.py           povezuje korake 1–5
+│   ├── llm.py, tekst.py      pomoćni moduli
+├── istrazivanje/             istraživački deo (koraci 6–8)
+│   ├── evaluacija.py         6. preciznost i odziv na test skupu
+│   └── eksperimenti.py       7–8. V0–V3 × Put A/B
+├── primer_podaci/            mali izmišljeni primer za probu
+├── data/                     NE ide na git: pravi oglasi, predmeti, ESCO
+└── rezultati/                NE ide na git: izlaz pokretanja (dataset)
 ```
-
----
 
 ### 3.6 Tehnologije (plan, može da se promeni)
 
@@ -293,9 +341,17 @@ projekat11/
 ## 4. Šta još ne znam (proveriti)
 
 - Da li su ishodi učenja i sadržaj dostupni za sve predmete RA, i da li mogu da dobijem nastavne materijale.
+- Koji portal za oglase dozvoljava prikupljanje.
+- Koji LLM koristim i koliki je budžet.
 - Koliko dobro višejezički modeli rade za srpski (proveravam testom iz odeljka „Izbor embedding modela“).
+- Koja 2–3 predmeta biram i da li mogu da dobijem njihove nastavne materijale.
+- Kakav je Ivanin dataset: šta sadrži, u kom formatu, da li ima označene veštine.
+- LinkedIn u uslovima korišćenja zabranjuje automatsko prikupljanje; proveriti sa profesorom da li oglase sa LinkedIna prikupljam ručno, koristim gotov dataset ili uzimam drugi portal.
+- Šta je tačno mislio pod „FTN baze“ kao izvorom za dataset.
 
 **Rešeno:** ESCO ne postoji na srpskom (postoji na 28 jezika, među njima hrvatski). Izvor: [ESCO languages](https://esco.ec.europa.eu/en/escopedia/ESCO-languages).
+
+**Rešeno:** ESCO ne pokriva sve konkretne alate: Docker i Spring Boot u njemu ne postoje (provera na v1.2.1, Unos 7).
 
 ---
 
@@ -306,7 +362,7 @@ projekat11/
 - Pregledano 12 izvora, u celini pročitano 5 (Andonovikj i Boškoski 2024; Senger i sar. 2024; Patterson 2026; Pelucchi i sar. 2026; Turaev i sar. 2026), ostali na nivou apstrakta.
 - Najbliži rad: Turaev i sar. (2026). Izvlače veštine iz ishoda učenja pomoću LLM-a, mapiraju ih na ESCO i porede sa 30 oglasa za jedan program.
 - Zapažanje: nisam našao rad koji meri koliko svaki dodatni izvor o predmetu poboljšava uparivanje. To je moja hipoteza za doprinos; proveriću je čitanjem punih tekstova.
-- Dokument: `Projekat11_final.docx`.
+- Dokument: `Projekat11.docx`.
 
 ### Unos 2 — konsultacije sa profesorom (28.10.2026)
 
@@ -324,9 +380,80 @@ projekat11/
 - Metodologiju sam prepisao kao niz koraka sa primerom (odeljak 2), da bude jasno šta ulazi i šta izlazi iz svakog koraka.
 - Izbacio sam stvari koje za sada ne koristim (složen indeks usklađenosti, mere za rangiranje), da se fokusiram na osnovno: pokrivenost oglasa, preciznost i odziv.
 - Sledeće: početi od smera Računarstvo i automatika i proveriti dostupnost kurikuluma.
+
+### Unos 4 — arhitektura i dorade (15.11.2026)
+
+- Dodao sam arhitekturu (odeljak 3): koji delovi sistema postoje i kako podaci idu kroz njih.
+- Proverio sam da ESCO nema srpsku verziju; dodao napomenu u korak 3.
+- Za Put B prag sličnosti biram na ručno označenom skupu, a ne unapred.
+- Zapisao sam koje ideje uzimam iz drugih radova, ne samo iz Turaeva (odeljak 0.2).
+
+### Unos 5 — jedan dokument (17.11.2026)
+
+- Dnevnik i arhitekturu sam spojio u jedan dokument, da sve bude na jednom mestu.
+
+### Unos 6 — smernice sa časa (23.11.2026)
+
+Profesor je rekao:
+- Fokus na **2–3 predmeta**, sa **nastavnim materijalima**.
+- Napraviti **generički engine** (isti postupak za bilo koji predmet ili smer).
+- Za **svaki oglas** dobijam **meru poklapanja**.
+- Poklapanje je **dvosmerno**: smer → oglasi i oglas → smer.
+- Jedan od rezultata je **dataset** u kome čuvam cele oglase i izvučene veštine (izvori: FTN, LinkedIn).
+- **Ivanin dataset** je moj **test skup**.
+- **Tehniku izvlačenja** veština treba preispitati.
+- **Sledeći korak: implementirati pipeline.**
+
+Šta sam promenio: korak 1 (2–3 predmeta, nastavni materijali, dataset), korak 2 (napomena o tehnici izvlačenja), korak 4 (poklapanje u oba smera), korak 6 (Ivanin dataset), odeljak 4 (nova pitanja) i sledeće korake.
+
+### Unos 7 — prva verzija pipeline-a (24.11.2026)
+
+- Implementiran ceo tok (koraci 1–8) kao generički engine: sve se podešava u `config.yaml`.
+- Dve tehnike izvlačenja veština (rečnik i LLM), poklapanje u oba smera, dataset kao rezultat, prototip aplikacije.
+- Isprobano na malom izmišljenom primeru (`primer_podaci/`): radi od početka do kraja. Na primeru F1 raste od V0 do V3, ali brojevi ne govore ništa o pravim predmetima.
+- Preuzeo sam pravi ESCO (v1.2.1, engleski, CSV): fajl `skills_en.csv` sa 13.960 veština. Čuva se u `data/esco/` i ne ide na git.
+- Pipeline sam pokrenuo sa pravim ESCO-om na primeru. Zapažanja:
+  - Tehnika `recnik` nalazi manje veština (11 umesto 16 u oglasima), jer ESCO ne zapisuje veštine istim rečima kao oglasi.
+  - **Docker i Spring Boot uopšte ne postoje u ESCO-u**; timski rad i testiranje postoje, ali pod drugim nazivima (npr. „manage teamwork“, „plan software testing“).
+  - Ima i pogrešnih pogodaka: „design“ → „think creatively“, „Git“ → „tools for software configuration management“ (preopšte).
+  - Zaključak: prosto traženje ESCO naziva u tekstu nije dovoljno, što potvrđuje smernicu da tehniku izvlačenja treba preispitati. Sledeće: LLM ekstrakcija i pravi višejezički embedding model.
+- Ispravka u kodu: TF-IDF vektori se čuvaju kao retka (sparse) matrica, jer je pun oblik za ceo ESCO trošio previše memorije.
+- Još nije isprobano: višejezički embedding model, LLM, pravi predmeti i oglasi, Ivanin dataset.
+
+<!--
+Šablon za nove unose:
+
+### Unos N — kratak naslov (DD.MM.GGGG)
+
+- Šta sam uradio:
+- Šta sam dobio (brojevi, fajlovi):
+- Problem / šta nije radilo:
+- Sledeći korak:
+-->
+
 ---
 
-## 6. Glavna literatura
+## 6. Sledeći koraci
+
+Prioritet je **implementacija pipeline-a** (smernica sa časa 23.11.).
+
+| # | Šta radim | Rezultat |
+|---|---|---|
+| 1 | Biram 2–3 predmeta RA i skupljam knjigu predmeta + nastavne materijale | tekst predmeta u `data/` |
+| 2 | Gledam Ivanin dataset (format, šta sadrži) | odluka kako ga koristim za testiranje |
+| 3 | **Urađeno:** preuzimam ESCO (v1.2.1, CSV, engleski; hrvatski kasnije) | `data/esco/skills_en.csv` |
+| 4 | Prikupljam oglase (portal po dogovoru, LinkedIn samo ako je dozvoljeno) | oglasi u `data/` |
+| 5 | **Urađeno (prva verzija):** implementiram pipeline od početka do kraja, generički (predmeti, izvori i model kao podešavanja); isprobano na primeru | prva mera poklapanja za svaki oglas, u oba smera |
+| 6 | Snimam rezultate kao dataset (oglasi, predmeti, veštine, poklapanja) | dataset kao rezultat projekta |
+| 7 | Poredim tehnike izvlačenja veština na Ivaninom datasetu | izabrana tehnika |
+| 8 | Biram embedding model (30–50 parova, 3 modela) | izabran model |
+| 9 | Eksperimenti V0–V3 i Put A / Put B | tabela preciznosti i odziva |
+| 10 | Prototip aplikacije: smer → oglasi i oglas → smer | prototip |
+| 11 | Pisanje rada | tekst |
+
+---
+
+## 7. Glavna literatura
 
 - Turaev, S., John, M., Awad, M., Zaki, N., & Shuaib, K. (2026). *An NLP-driven framework for curriculum-labor market alignment.* arXiv:2606.01982 (preprint).
 - Pelucchi, M. i sar. (2026). *Bridging skills demand and vocational qualifications* (konferencijska prezentacija, Lightcast).
