@@ -1,0 +1,49 @@
+# Podešavanja pipeline-a.
+# Engine je generički: sve što zavisi od smera, predmeta, izvora ili modela menja se ovde, ne u kodu.
+
+naziv_pokretanja: primer            # rezultati idu u rezultati/<naziv_pokretanja>/
+
+# --- Korak 1: ulazni podaci ---
+podaci:
+  predmeti: primer_podaci/predmeti.json   # predmeti smera (2–3 predmeta za početak)
+  oglasi: primer_podaci/oglasi.csv        # oglasi (kolone: id, naziv, firma, izvor, link, datum, tekst, opis_firme)
+  esco: primer_podaci/esco_primer.csv     # pravi ESCO: skills_en.csv sa ESCO portala
+
+# --- Korak 7: koliko teksta o predmetu sistem vidi ---
+# V0 = naziv + opis, V1 = + ishodi, V2 = + sadržaj, V3 = + nastavni materijali
+nivo_predmeta: V3
+oglas_sa_opisom_firme: false        # true = tekstu oglasa se dodaje opis firme
+
+# --- Korak 2: tehnika izvlačenja veština ---
+# recnik = traži ESCO nazive i sinonime direktno u tekstu (bez LLM-a)
+# llm    = LLM vraća listu veština sa citatom iz teksta
+ekstrakcija: recnik
+
+# --- Korak 3 i 8: kako se porede veštine ---
+# A = preko ESCO-a (embedding → top-k kandidata → izbor)
+# B = bez ESCO-a (veština iz oglasa direktno sa veštinama predmeta)
+put: A
+top_k: 5                            # koliko ESCO kandidata vraća embedding
+prag_esco: 0.5                      # Put A bez LLM-a: najmanja sličnost da se prihvati najbolji kandidat
+prag_b: 0.7                         # Put B: najmanja sličnost da se veština računa kao pokrivena
+
+# --- Embedding model ---
+# tfidf = jednostavan model koji radi bez interneta (samo za probu)
+# ili ime sentence-transformers modela, npr.:
+#   BAAI/bge-m3
+#   intfloat/multilingual-e5-large
+#   sentence-transformers/paraphrase-multilingual-mpnet-base-v2
+embedding_model: tfidf
+
+# --- LLM ---
+# provider: none | openai | anthropic   (ključ se čita iz promenljive okruženja OPENAI_API_KEY / ANTHROPIC_API_KEY)
+llm:
+  provider: none
+  model: ""
+  temperatura: 0                    # 0 = isti ulaz daje isti izlaz (ponovljivost)
+
+# --- Korak 5: zastareo sadržaj ---
+zastareo_max_udeo: 0.0              # veština smera koja se traži u <= ovom udelu oglasa je kandidat za zastareo sadržaj
+
+# --- Korak 6: test skup ---
+test_skup: primer_podaci/test_skup.csv   # kolone: oglas_id, vestina, pokriveno (da/ne)

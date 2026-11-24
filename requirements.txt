@@ -1,0 +1,14 @@
+pandas
+numpy
+scikit-learn
+pyyaml
+pdfplumber
+streamlit
+# za pravi višejezički embedding model:
+sentence-transformers
+# za krouler:
+requests
+beautifulsoup4
+# LLM (instalirati samo onaj koji se koristi):
+# openai
+# anthropic
