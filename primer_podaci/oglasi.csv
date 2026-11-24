@@ -1,0 +1,4 @@
+id,naziv,firma,izvor,link,datum,tekst,opis_firme
+O1,Junior Backend Developer,Firma A (izmišljena),primer,,2026-11-23,"We are looking for a Junior Backend Developer. Requirements: Java, Spring Boot, SQL (PostgreSQL), REST API, Git, Docker. Good communication skills.",Firma A razvija softver za banke.
+O2,QA Engineer,Firma B (izmišljena),primer,,2026-11-23,"QA Engineer wanted. You will do software testing of web applications, write SQL queries to check data and use Git. Teamwork is important.",Firma B pravi aplikacije za e-trgovinu.
+O3,Frontend Developer,Firma C (izmišljena),primer,,2026-11-23,"Frontend Developer. Requirements: JavaScript, React, Git, REST API. Communication with clients.",Firma C je agencija za izradu veb sajtova.

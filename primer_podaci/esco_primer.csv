@@ -1,0 +1,26 @@
+conceptUri,preferredLabel,altLabels,description
+primer:sql,SQL,"structured query language
+SQL upiti",Jezik za upite nad relacionim bazama podataka.
+primer:postgresql,PostgreSQL,Postgres,Sistem za upravljanje relacionim bazama podataka otvorenog koda.
+primer:mysql,MySQL,,Sistem za upravljanje relacionim bazama podataka.
+primer:design-db,design database scheme,"database design
+relational database design",Projektovanje šeme relacione baze podataka.
+primer:normalisation,database normalisation,normalization,Organizovanje tabela radi smanjenja redundanse.
+primer:transactions,database transactions,transactions,Grupisanje operacija nad bazom u celinu koja uspeva ili ne uspeva.
+primer:java,Java (computer programming),Java,Programiranje u jeziku Java.
+primer:javascript,JavaScript,JS,Programiranje u jeziku JavaScript.
+primer:python,Python (computer programming),Python,Programiranje u jeziku Python.
+primer:oop,object-oriented programming,OOP,Programska paradigma zasnovana na objektima i klasama.
+primer:spring,Spring Boot,Spring framework,Java okvir za izradu veb aplikacija i servisa.
+primer:rest,REST API,"RESTful services
+REST",Izrada i korišćenje veb servisa po REST principima.
+primer:git,Git,"version control
+kontrola verzija",Sistem za kontrolu verzija izvornog koda.
+primer:docker,Docker,"containerisation
+containers",Pakovanje aplikacija u kontejnere.
+primer:testing,software testing,"unit testing
+JUnit",Provera da li softver radi ispravno.
+primer:linux,Linux,,Rad u Linux operativnom sistemu.
+primer:communication,communication,"communicate
+communication skills",Jasno prenošenje informacija drugima.
+primer:teamwork,work in teams,teamwork,Saradnja sa drugima u timu.

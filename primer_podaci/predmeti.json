@@ -1,0 +1,24 @@
+[
+  {
+    "id": "P1",
+    "naziv": "Baze podataka",
+    "opis": "Predmet uvodi studente u oblast baza podataka.",
+    "ishodi": [
+      "Student ume da projektuje relacionu bazu podataka (database design).",
+      "Student ume da piše SQL upite."
+    ],
+    "sadrzaj": "ER model. Normalizacija (normalization). SQL. Transakcije (transactions). Rad sa sistemom PostgreSQL.",
+    "materijali": "Vežbe: instalacija PostgreSQL baze u Docker kontejneru. Predaja zadataka preko Git repozitorijuma."
+  },
+  {
+    "id": "P2",
+    "naziv": "Objektno programiranje",
+    "opis": "Predmet se bavi osnovama programiranja.",
+    "ishodi": [
+      "Student ume da piše programe u jeziku Java.",
+      "Student razume principe objektno orijentisanog programiranja (OOP)."
+    ],
+    "sadrzaj": "Klase i objekti, nasleđivanje, kolekcije, izuzeci. Testiranje koda pomoću JUnit.",
+    "materijali": "Projekat se radi u timu (teamwork) i predaje preko Git-a. Vežbe se rade na Linux računarima."
+  }
+]

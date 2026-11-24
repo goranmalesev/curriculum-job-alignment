@@ -1,0 +1,18 @@
+oglas_id,vestina,pokriveno
+O1,Java,da
+O1,Spring Boot,ne
+O1,SQL,da
+O1,PostgreSQL,da
+O1,REST API,ne
+O1,Git,da
+O1,Docker,da
+O1,communication,ne
+O2,software testing,da
+O2,SQL,da
+O2,Git,da
+O2,teamwork,da
+O3,JavaScript,ne
+O3,React,ne
+O3,Git,da
+O3,REST API,ne
+O3,communication,ne
