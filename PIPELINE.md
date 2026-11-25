@@ -4,7 +4,7 @@ Kod prati metodologiju iz `Istrazivacki_dnevnik.md`. Svaki korak je poseban fajl
 
 ## Arhitektura pipeline-a
 
-Dijagram prikazuje kako podaci prolaze kroz kod: od ulaznih fajlova, kroz pet koraka engine-a, do rezultata (dataset) i aplikacije. Istraživački deo (desno dole) ne pravi poseban sistem, nego isti pipeline pokreće više puta sa drugim podešavanjima.
+Dijagram prikazuje kako podaci prolaze kroz kod: od ulaznih fajlova, kroz pet koraka engine-a, do rezultata (dataset) i aplikacije. Istraživački deo ne pravi poseban sistem, nego isti pipeline pokreće više puta sa drugim podešavanjima.
 
 ```mermaid
 flowchart TB
